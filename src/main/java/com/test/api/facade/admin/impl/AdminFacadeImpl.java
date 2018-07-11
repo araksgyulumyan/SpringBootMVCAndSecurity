@@ -2,6 +2,7 @@ package com.test.api.facade.admin.impl;
 
 import com.test.api.facade.admin.AdminFacade;
 import com.test.api.model.request.admin.UserCreationRequestModel;
+import com.test.api.model.request.admin.UserUpdateRequestModel;
 import com.test.api.model.response.common.ErrorType;
 import com.test.api.model.response.user.UserModel;
 import com.test.core.entity.user.User;
@@ -46,6 +47,24 @@ public class AdminFacadeImpl implements AdminFacade {
     }
 
     @Override
+    public UserModel update(final Long userId, final UserUpdateRequestModel requestModel) {
+        final List<ErrorType> errors = checkRequestModelForErrors(requestModel);
+        if (!CollectionUtils.isEmpty(errors)) {
+            return UserModel.withErrors(errors);
+        }
+        try {
+            final UserDto userDto = new UserDto();
+            userDto.setFirstName(requestModel.getFirstName());
+            userDto.setLastName(requestModel.getLastName());
+            final User user = userService.updateUser(userId, userDto);
+            return UserModel.fromUser(user);
+        } catch (final UserAlreadyExistsForUserNameException ex) {
+            errors.add(ErrorType.USERNAME_ALREADY_EXISTS);
+            return UserModel.withErrors(errors);
+        }
+    }
+
+    @Override
     public void remove(final Long userId) {
         Assert.notNull(userId, "User id should not be null");
         userService.removeUserById(userId);
@@ -55,16 +74,29 @@ public class AdminFacadeImpl implements AdminFacade {
     public List<UserModel> getUsers() {
         final List<User> users = userService.getUsers();
         final List<UserModel> models = new ArrayList<>(users.size());
-        for (final User user: users) {
+        for (final User user : users) {
             models.add(UserModel.fromUser(user));
         }
         return models;
     }
 
     @Override
+    public UserModel getAdmin() {
+        return UserModel.fromUser(userService.getAdmin());
+    }
+
+
+    @Override
     public UserModel getByUserName(final String userName) {
         Assert.hasText(userName, "User name should not be empty");
         final User user = userService.getUserByUsername(userName);
+        return UserModel.fromUser(user);
+    }
+
+    @Override
+    public UserModel getById(Long userId) {
+        Assert.notNull(userId, "User id should not be empty");
+        final User user = userService.getUserById(userId);
         return UserModel.fromUser(user);
     }
 
@@ -80,4 +112,7 @@ public class AdminFacadeImpl implements AdminFacade {
         return registrationRequestModel.checkForErrors();
     }
 
+    private List<ErrorType> checkRequestModelForErrors(final UserUpdateRequestModel requestModel) {
+        return requestModel.checkForErrors();
+    }
 }

@@ -1,4 +1,4 @@
-package com.test.api.model.request.user;
+package com.test.api.model.request.admin;
 
 import com.test.api.model.response.common.ErrorType;
 import org.apache.commons.lang3.StringUtils;
@@ -6,6 +6,7 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
+import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,8 +20,10 @@ public class UserUpdateRequestModel implements Serializable {
     private static final long serialVersionUID = -3233537617165516279L;
 
     // Properties
+    @NotEmpty
     private String firstName;
 
+    @NotEmpty
     private String lastName;
 
     public UserUpdateRequestModel() {
@@ -44,10 +47,10 @@ public class UserUpdateRequestModel implements Serializable {
 
     public List<ErrorType> checkForErrors() {
         final List<ErrorType> errorTypes = new ArrayList<>();
-        if(StringUtils.isEmpty(getFirstName())) {
+        if (StringUtils.isEmpty(getFirstName())) {
             errorTypes.add(ErrorType.INVALID_FIRST_NAME);
         }
-        if(StringUtils.isEmpty(getLastName())) {
+        if (StringUtils.isEmpty(getLastName())) {
             errorTypes.add(ErrorType.INVALID_LAST_NAME);
         }
         return errorTypes;

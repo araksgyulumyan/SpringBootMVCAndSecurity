@@ -1,5 +1,6 @@
 package com.test.api.model;
 
+import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 
 /**
@@ -11,8 +12,10 @@ public class LoginModel implements Serializable {
 
     private static final long serialVersionUID = 5629340445946865517L;
 
+    @NotEmpty
     private String username;
 
+    @NotEmpty
     private String password;
 
     public LoginModel() {

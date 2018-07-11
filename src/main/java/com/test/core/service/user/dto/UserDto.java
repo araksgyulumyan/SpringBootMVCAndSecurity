@@ -17,6 +17,14 @@ public class UserDto {
 
     private String lastName;
 
+    public UserDto() {
+    }
+
+    public UserDto(String firstName, String lastName) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
+
     // Getters and Setters
     public String getFirstName() {
         return firstName;

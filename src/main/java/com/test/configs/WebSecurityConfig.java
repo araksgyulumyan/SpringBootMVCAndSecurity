@@ -38,12 +38,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
             .authorizeRequests()
-                .antMatchers("/admin/**").authenticated()
+                .antMatchers("/admin/**").hasRole("ADMIN")
+            .and()
+            .authorizeRequests()
+                .antMatchers("/alfred/**").permitAll()
             .and()
                 .formLogin()
-                    .loginPage("/login/admin/**").permitAll()
+//                    .loginPage("/login/admin/**").permitAll()
                     .defaultSuccessUrl("/admin/dashboard")
-                    .failureUrl("/login/admin")
-                    .usernameParameter("username").passwordParameter("password");
+                    .failureUrl("/login/admin?error=true")
+                .loginProcessingUrl("/login/admin/**").permitAll()
+                    .usernameParameter("username").passwordParameter("password")
+                .and()
+                .logout()
+                .permitAll();
     }
 }

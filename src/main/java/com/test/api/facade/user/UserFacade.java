@@ -1,6 +1,5 @@
 package com.test.api.facade.user;
 
-import com.test.api.model.request.user.UserUpdateRequestModel;
 import com.test.api.model.response.user.UserModel;
 
 /**
@@ -11,7 +10,7 @@ import com.test.api.model.response.user.UserModel;
 
 public interface UserFacade {
 
-    UserModel update(final Long userId, final UserUpdateRequestModel requestModel);
+//    UserModel update(final Long userId, final UserUpdateRequestModel requestModel);
 
     UserModel getById(Long userId);
 

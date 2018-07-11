@@ -1,11 +1,13 @@
 package com.test.api.model.request.admin;
 
 import com.test.api.model.response.common.ErrorType;
+import com.test.api.validation.UniqueUsername;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
+import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,12 +22,17 @@ public class UserCreationRequestModel implements Serializable {
     private static final long serialVersionUID = -7050236540495696778L;
 
     // Properties
+    @NotEmpty
+    @UniqueUsername
     private String userName;
 
+    @NotEmpty
     private String password;
 
+    @NotEmpty
     private String firstName;
 
+    @NotEmpty
     private String lastName;
 
     // Getters and Setters
@@ -63,16 +70,16 @@ public class UserCreationRequestModel implements Serializable {
 
     public List<ErrorType> checkForErrors() {
         final List<ErrorType> errorTypes = new ArrayList<>();
-        if(StringUtils.isEmpty(getUserName())) {
+        if (StringUtils.isEmpty(getUserName())) {
             errorTypes.add(ErrorType.INVALID_USERNAME);
         }
-        if(StringUtils.isEmpty(getFirstName())) {
+        if (StringUtils.isEmpty(getFirstName())) {
             errorTypes.add(ErrorType.INVALID_FIRST_NAME);
         }
-        if(StringUtils.isEmpty(getLastName())) {
+        if (StringUtils.isEmpty(getLastName())) {
             errorTypes.add(ErrorType.INVALID_LAST_NAME);
         }
-        if(StringUtils.isEmpty(getPassword())) {
+        if (StringUtils.isEmpty(getPassword())) {
             errorTypes.add(ErrorType.INVALID_PASSWORD);
         }
         return errorTypes;

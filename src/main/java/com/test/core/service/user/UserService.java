@@ -66,4 +66,8 @@ public interface UserService {
      * @return list of users
      */
     List<User> getUsers();
+
+    User getAdmin();
+
+    boolean checkIfAdminExists();
 }

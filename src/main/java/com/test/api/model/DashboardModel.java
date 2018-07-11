@@ -18,39 +18,41 @@ public class DashboardModel implements Serializable {
     private static final long serialVersionUID = -8498011053589524883L;
 
     // Properties
-    private String adminUserName;
 
     private Set<UserModel> users;
+
+    private UserModel admin;
 
     // Constructors
     public DashboardModel() {
     }
 
-    public DashboardModel(final String adminUserName, final Set<UserModel> users) {
-        this.adminUserName = adminUserName;
+    public DashboardModel(Set<UserModel> users, UserModel admin) {
         this.users = users;
+        this.admin = admin;
     }
+
 
     // Properties getters and setters
-    public String getAdminUserName() {
-        return adminUserName;
-    }
-
-    public void setAdminUserName(String adminUserName) {
-        this.adminUserName = adminUserName;
-    }
 
     public Set<UserModel> getUsers() {
         return users;
     }
 
     public void setUsers(Set<UserModel> users) {
-        if(users == null) {
+        if (users == null) {
             users = new HashSet<>();
         }
         this.users = users;
     }
 
+    public UserModel getAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(UserModel admin) {
+        this.admin = admin;
+    }
 
     @Override
     public boolean equals(Object obj) {
@@ -65,24 +67,25 @@ public class DashboardModel implements Serializable {
         }
         DashboardModel rhs = (DashboardModel) obj;
         return new EqualsBuilder()
-                .append(this.getAdminUserName(), rhs.getAdminUserName())
-                .append(this.getUsers().size(), rhs.getUsers().size())
+                .append(this.users, rhs.users)
+                .append(this.admin, rhs.admin)
                 .isEquals();
     }
 
     @Override
     public int hashCode() {
         return new HashCodeBuilder()
-                .append(getAdminUserName())
-                .append(getUsers().size())
+                .append(users)
+                .append(admin)
                 .toHashCode();
     }
+
 
     @Override
     public String toString() {
         return new ToStringBuilder(this)
-                .append("adminUserName", getAdminUserName())
-                .append("users", getUsers().size())
+                .append("users", users)
+                .append("admin", admin)
                 .toString();
     }
 }

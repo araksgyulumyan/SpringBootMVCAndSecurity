@@ -87,6 +87,16 @@ public class UserServiceImpl implements UserService {
         return userRepository.findAllByUserRole(UserRole.USER);
     }
 
+    @Override
+    public User getAdmin() {
+        return userRepository.findByUserRole(UserRole.ADMIN);
+    }
+
+    @Override
+    public boolean checkIfAdminExists() {
+        return userRepository.findAllByUserRole(UserRole.ADMIN).size() > 0;
+    }
+
     // Utility methods
     private static void assertUserDto(final UserDto userDto) {
         Assert.notNull(userDto, "User dto should not be null");
